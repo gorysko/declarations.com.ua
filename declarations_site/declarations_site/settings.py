@@ -20,11 +20,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 SECRET_KEY = 'PLEASEREPLACEMEREPLACEMEREPLACEMDONTLEAVEMELIKETHAT'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -64,7 +64,16 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 # We don't need a database yet!
-DATABASES = {}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', 
+        'NAME': 'declarations',                      
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
 
 # Setup Elasticsearch default connection
 ELASTICSEARCH_CONNECTIONS = {
