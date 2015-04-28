@@ -1,0 +1,49 @@
+{% extends "base.jinja" %}
+
+{% block bodyclass %}front{% endblock %}
+
+{% block infobox %}
+                <section id="infobox" class="hidden-xs">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col col-sm-12">
+                                <a href="#" id="closeme" class="pull-right"><span class="glyphicon"></span></a>
+
+                                <p class="mb10">
+                                    <a class="mediaimage" href="например линк на информационную страницу">
+                                    </a>
+                                    <i> Ми знаходимо, розшифровуємо та публікуємо декларації чиновників, щоб викрити їхню брехню про статки та майно. <br/>
+                                        Ви можете допомогти проекту <a href="http://sotnya.org.ua">долучившись до розшифровки</a>, або зробивши перерахунок на картку 5168 7423 3713 2520 (ПриватБанк).<br />
+                                        Краще долучайтесь до розшифровки, а гроші - на АТО. З вдячністю, Денис Бігус.</i>
+                                </p>
+                                <a href="{% url 'about' %}" class="classic green">Дізнатися детально про проект</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+{% endblock %}
+
+{% block content %}
+            <section id="searchbox">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12">
+                            <form action="{% url 'search' %}" method="GET">
+                                <div class="input-group">
+                                    <input type="text" name="q" class="form-control" id="search-form" placeholder="Введіть прізвище чиновника" autocomplete="off" />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </form>
+                            <!-- /input-group -->
+                            <p class="white mt20">Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба</p>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12"></div>
+                    </div>
+                </div>
+            </section>
+            <div class="cp"></div> <!-- clear padding -->
+{% endblock %}

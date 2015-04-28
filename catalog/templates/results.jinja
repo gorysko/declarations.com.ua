@@ -1,0 +1,69 @@
+{% extends "base.jinja" %}
+
+{% block extrahead %}
+{% if results.has_previous() %}<link rel="prev" href="?{{ updated_querystring(request, {'page': results.previous_page_number()}) }}" />{% endif %}
+{% if results.has_next() %}<link rel="next" href="?{{ updated_querystring(request, {'page': results.next_page_number()}) }}" />{% endif %}
+{% endblock %}
+
+{% block content %}
+<section id="page">
+    <div class="container">
+        <div id="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="{{ url("home") }}">Головна</a></li>
+                <li class="active">Результати пошуку</li>
+            </ol> 
+        </div>
+        <h1 id="page-header"><span>{{ query|default("Всі")|escape }} ({{ results.paginator.count }})</span></h1>
+        <div class="page-content">
+        <div class="container">
+            <div class="btn-group">
+                <a href="#" id="list" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-th-list"></span> Списком
+                </a> 
+                <a href="#" id="grid" class="btn btn-default btn-sm">
+                    <spanclass="glyphicon glyphicon-th"></span> Картками
+                </a>
+            </div>
+            <div id="search-results" class="row list-group">
+                {% for r in results %}
+                <div class="item col-xs-4 col-lg-4 grid-group-item" itemscope itemtype="http://schema.org/Person">
+                    <div class="box">
+                        <h3><a href="{{ url("details", declaration_id=r._id) }}" itemprop="name">{{ r.general.last_name }} {{ r.general.name }} {{ r.general.patronymic }}</a></h3>
+                        <ul class="tags_list">
+                            <li><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>{{ r.intro.declaration_year }}<span>,</span></li>
+                            {% if r.general.post.region %}
+                                <li><a href="{{ url('region', region_name=r.general.post.region) }}">{{ r.general.post.region }}</a><span>,</span></li> 
+                            {% endif %}
+                            {% if r.general.post.office %}
+                                <li><a href="{{ url('office', office_name=r.general.post.office) }}">{{ r.general.post.office }}</a><span>,</span></li> 
+                            {% endif %}
+                            {% if r.general.post.post %}
+                                <li itemprop="jobTitle">{{ r.general.post.post }}</li> 
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                {% if loop.index is divisibleby 3 %}
+                    <div class="clearfix"></div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% if results.paginator.num_pages > 1 %}
+            <ul class="pagination">
+                <li{% if not results.has_previous() %} class="disabled"{% endif %}><a href="{% if results.has_previous() %}?{{ updated_querystring(request, {'page': results.previous_page_number()}) }}{% endif %}">«</a></li>
+                {% for page_num in results.contextual_page_range %}
+                {% if page_num == None %}
+                    <li class="disabled"><a href="#">&hellip;</a></li>
+                {% else %}
+                    <li{% if results.number == page_num %} class="active"{% endif %}><a href="?{{ updated_querystring(request, {'page': page_num}) }}">{{ page_num }}</a></li>
+                {% endif %}
+                {% endfor %}
+                <li{% if not results.has_next() %} class="disabled"{% endif %}><a href="{% if results.has_next() %}?{{ updated_querystring(request, {'page': results.next_page_number()}) }}{% endif %}">»</a></li>
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}
